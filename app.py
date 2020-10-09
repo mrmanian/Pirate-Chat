@@ -7,6 +7,7 @@ import flask_socketio
 import flask_sqlalchemy
 import models
 import random
+import requests
 
 MESSAGES_RECEIVED_CHANNEL = 'messages received'
 
@@ -34,7 +35,7 @@ def bot(message):
             db.session.commit()
             
         elif (message == '!!help' or message == '!! help'):
-            db.session.add(models.Chat('Here are the known commands you can use: !!about - !!help - !!mood'))
+            db.session.add(models.Chat('Here are the known commands you can use: !!about - !!help - !!mood - !!funtranslate - !!insult'))
             db.session.commit()
             
         elif (message == '!!mood' or message == '!! mood'):
@@ -50,6 +51,23 @@ def bot(message):
                     "I'm feeling goofy.",
                     "I'm feeling lonely."]
             db.session.add(models.Chat(random.choice(moods)))
+            db.session.commit()
+            
+        elif (message.split()[0] == '!!funtranslate' or [message[i: i + 15] for i in range(0, len(message), 15)][0] == '!! funtranslate'):
+            phrase = message[15:]
+            api_link1 = f'https://api.funtranslations.com/translate/pirate.json?text={phrase}'
+            parse_data1 = requests.get(api_link1).json()
+            translation = parse_data1['contents']['translated']
+            
+            db.session.add(models.Chat(translation))
+            db.session.commit()
+            
+        elif (message == '!!insult' or message == '!! insult'):
+            api_link2 = 'https://api.fungenerators.com/pirate/generate/insult?limit=5'
+            parse_data2 = requests.get(api_link2).json()
+            insults = parse_data2['contents']['taunts']
+            
+            db.session.add(models.Chat(random.choice(insults)))
             db.session.commit()
             
         else:
