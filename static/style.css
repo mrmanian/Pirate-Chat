@@ -1,0 +1,14 @@
+body {
+    background-image: url('https://i.postimg.cc/xThy4vK9/piratebackground.jpg') ;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    background-position: center;
+    text-align: center;
+    padding: 0;
+    margin: 0; 
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
