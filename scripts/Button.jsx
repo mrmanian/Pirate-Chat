@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { Socket } from './Socket';
 
+import './Button.css';
+
 export function Button() {
     const [userName, setUserName] = useState('');
 
@@ -30,9 +32,13 @@ export function Button() {
 
 // Creates input box and button
     return (
-        <form onSubmit={handleSubmit} autoComplete='off'>
-            <input type='text' id='text' placeholder='Enter your message...'></input>
-            <button type='submit'>Send Message</button>
+        <form className='formContainer' onSubmit={handleSubmit} autoComplete='off'>
+            <div className="inputContainer">
+                <input type='text' id='text' placeholder='Enter your message...'></input>
+            </div>
+            <div className="buttonContainer">
+                <button type='submit'>Send Message</button>
+            </div>
         </form>
     );
 }
