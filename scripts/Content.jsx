@@ -35,7 +35,7 @@ export function Content() {
                         <li className='list' key={index}>{message}</li>))}
                     </ul>
                 </div>
-                <div className='fixed'><Button /></div>
+                <Button />
             </div>
         </div>
     );
