@@ -8,23 +8,22 @@ import './Content.css';
 
 export function Content() {
     const [messages, setMessages] = useState([]);
-    
-    function getNewMessages() {
-        useEffect(() => {
-            Socket.on('messages received', updateMessages);
-            return () => {
-                Socket.off('messages received', updateMessages);
-            };
-        });
-    }
-    
+
+// Gets message via socket
+    useEffect(() => {
+        Socket.on('messages received', updateMessages);
+        return () => {
+            Socket.off('messages received', updateMessages);
+        };
+    });
+
+// Update hook with the new messages
     function updateMessages(data) {
         console.log('Received messages from the server: ' + data['allMessages']);
         setMessages(data['allMessages']);
     }
-    
-    getNewMessages();
-    
+
+// Creates chat box and message content
     return (
         <div>
             <h1>Chat App</h1>
