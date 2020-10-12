@@ -8,7 +8,7 @@ import './Content.css';
 
 export function Content() {
     const [messages, setMessages] = useState([]);
-
+    
 // Gets message via socket
     useEffect(() => {
         Socket.on('messages received', updateMessages);
@@ -16,19 +16,21 @@ export function Content() {
             Socket.off('messages received', updateMessages);
         };
     });
-
+    
 // Update hook with the new messages
     function updateMessages(data) {
         console.log('Received messages from the server: ' + data['allMessages']);
         setMessages(data['allMessages']);
     }
-
+    
 // Creates chat box and message content
     return (
         <div>
             <h1>Chat App</h1>
-            <div className='margin'><Users /></div>
             <div className='outerContainer'>
+                <div className='topContainer'>
+                    <Users />
+                </div>
                 <div className='container'>
                     <ul>
                         {messages.map((message, index) => (
