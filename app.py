@@ -53,7 +53,7 @@ def bot(message):
             
         # Bot outputs definition of a pirate (got from urban dictionary)
         elif (message == '!!pirate' or message == '!! pirate'):
-            db.session.add(models.Chat('A guy who drives a ship and yells "yo dude gimme your money and stuff" and gets whatever he wants. Usually has a stash or rum for some reason.'))
+            db.session.add(models.Chat('Captain Bot: A guy who drives a ship and yells "yo dude gimme your money and stuff" and gets whatever he wants. Usually has a stash or rum for some reason.'))
             db.session.commit()
             
         # Bot outputs a random mood
@@ -108,19 +108,27 @@ def bot(message):
             phrase = message[15:]
             api_link1 = f'https://api.funtranslations.com/translate/pirate.json?text={phrase}'
             parse_data1 = requests.get(api_link1).json()
-            translation = 'Captain Bot: '+ parse_data1['contents']['translated']
-            
-            db.session.add(models.Chat(translation))
-            db.session.commit()
+            print(parse_data1)
+            if 'success' in parse_data1:
+                translation = 'Captain Bot: '+ parse_data1['contents']['translated']
+                db.session.add(models.Chat(translation))
+                db.session.commit()
+            else:
+                db.session.add(models.Chat('Captain Bot: Too Many Requests: Rate limit of 5 requests per hour exceeded.'))
+                db.session.commit()
             
         # Bot displays a random pirate insult via API call
         elif (message == '!!insult' or message == '!! insult'):
             api_link2 = 'https://api.fungenerators.com/pirate/generate/insult?limit=5'
             parse_data2 = requests.get(api_link2).json()
-            insults = parse_data2['contents']['taunts']
-            
-            db.session.add(models.Chat('Captain Bot: ' + random.choice(insults)))
-            db.session.commit()
+            print(parse_data2)
+            if 'success' in parse_data2:
+                insults = parse_data2['contents']['taunts']
+                db.session.add(models.Chat('Captain Bot: ' + random.choice(insults)))
+                db.session.commit()
+            else:
+                db.session.add(models.Chat('Captain Bot: Too Many Requests: Rate limit of 5 requests per day exceeded.'))
+                db.session.commit()
         
         # If unknown command, display this
         else:
