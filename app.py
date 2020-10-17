@@ -37,17 +37,25 @@ db.session.commit()
 userCount = 0
 userName = 'Pirate '
             
-# Persists all messages from database
+# Persists all usernames, picurls, and messages from database
 def emit_all_messages(channel):
-    global userName
+    all_usernames = [ \
+    db_users.userName for db_users in \
+        db.session.query(models.ChatHistory).all()]
+        
+    all_picurls = [ \
+    db_picurl.picUrl for db_picurl in \
+        db.session.query(models.ChatHistory).all()]
+        
     all_messages = [ \
     db_message.message for db_message in \
-        db.session.query(models.Chat).all()]
+        db.session.query(models.ChatHistory).all()]
         
     # Broadcast all messages to all clients
     socketio.emit(channel, {
-        'allMessages': all_messages,
-        'userName': userName
+        'allUserNames': all_usernames,
+        'allPicUrls': all_picurls,
+        'allMessages': all_messages
     })
     
 # On new connection
@@ -90,11 +98,8 @@ def on_disconnect():
 def on_new_message(data):
     print('Received message: ', data)
     
-    # Add username and message into one string
-    fullMessage = data['userName'] + ': ' + data['message']
-    
-    # Stores full message into database
-    db.session.add(models.Chat(fullMessage))
+    # Stores data into database
+    db.session.add(models.ChatHistory(data['userName'], '', data['message']))
     db.session.commit()
     
     # If message starts with '!!' call the bot 
@@ -105,7 +110,7 @@ def on_new_message(data):
         fullMessage = data['userName'] + ': ' + data['message']
         print('Received message from bot: ', data)
         
-        db.session.add(models.Chat(fullMessage))
+        db.session.add(models.ChatHistory(data['userName'], '', data['message']))
         db.session.commit()
     
     emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
