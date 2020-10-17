@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { Socket } from './Socket';
 
+import './Users.css';
+
 // Counts connected/disconnected users
 export function Users() {
     const [userCount, setUserCount] = useState(0);
@@ -20,7 +22,8 @@ export function Users() {
     
     return (
         <div>
-            <h3>Number of connected users: {userCount} </h3>
+            <h1>Ahoy, Matey!</h1>
+            <h3>Number o' connected users: {userCount} </h3>
         </div>
     );
 }
