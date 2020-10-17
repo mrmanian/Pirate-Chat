@@ -1,13 +1,13 @@
 .topContainer {
-    background: #eee !important; 
-    border-bottom: 4px solid #ccc !important;
+    background: #eee; 
+    border-bottom: 4px solid #ccc;
 }
 
 .outerContainer {
-    border: 4px solid #ccc !important;
+    border: 4px solid #ccc;
     border-radius: 5px;
-    height: 80vh;
-    width: 50vw;
+    height: 85vh;
+    width: 55vw;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -17,17 +17,11 @@
     text-align: center;
 }
 
-.outerContainer .Button {
-    background: #eee;
-    border-top: 4px solid #ccc !important;
-    box-sizing: border-box;
-    flex: 0 0 30px;
-}
-
 .container {
     background: #eee;
     overflow-y: auto;
     padding: 4px;
+    height: 100vh;
     display: flex;
     flex-direction: column-reverse;
 }

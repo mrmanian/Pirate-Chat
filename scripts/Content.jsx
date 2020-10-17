@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Users } from './Users';
-import { Button } from './Button';
+import { MessageForm } from './MessageForm';
 import { Socket } from './Socket';
 
 import './Content.css';
@@ -26,7 +26,6 @@ export function Content() {
 // Creates chat box and message content
     return (
         <div>
-            <h1>Chat App</h1>
             <div className='outerContainer'>
                 <div className='topContainer'>
                     <Users />
@@ -37,7 +36,7 @@ export function Content() {
                         <li className='list' key={index}>{message}</li>))}
                     </ul>
                 </div>
-                <Button />
+                <MessageForm />
             </div>
         </div>
     );
