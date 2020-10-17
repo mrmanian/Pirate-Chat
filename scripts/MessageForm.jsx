@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { Socket } from './Socket';
 
-import './Button.css';
+import './MessageForm.css';
 
-export function Button() {
+export function MessageForm() {
     const [userName, setUserName] = useState('');
 
 // Set username for each connection
@@ -34,10 +34,10 @@ export function Button() {
     return (
         <form className='formContainer' onSubmit={handleSubmit} autoComplete='off'>
             <div className="inputContainer">
-                <input type='text' id='text' placeholder='Enter your message...'></input>
+                <input type='text' id='text' placeholder='Enter yer message...'></input>
             </div>
             <div className="buttonContainer">
-                <button type='submit'>Send Message</button>
+                <button type='submit'>Send<br/>Message</button>
             </div>
         </form>
     );

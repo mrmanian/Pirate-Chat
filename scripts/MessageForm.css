@@ -1,0 +1,24 @@
+.formContainer {
+    display: flex;
+    background: #ccc;
+}
+
+.formContainer .inputContainer {
+    flex: 1;
+    margin-left: -3px;
+}
+
+.formContainer .buttonContainer {
+    flex: 0 0 10em;
+    margin-right: -3px;
+}
+
+.formContainer input, .formContainer button {
+    background: #fff;
+    border-radius: 3px;
+    border: 4px solid #ccc;
+    box-sizing: border-box;
+    font-size: inherit;
+    height: 110%;
+    width: 100%;
+}
