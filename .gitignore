@@ -1,5 +1,5 @@
 node_modules/
 static/script.js
 package-lock.json
-sql.env
+keys.env
 __pycache__
