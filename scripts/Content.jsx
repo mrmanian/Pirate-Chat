@@ -12,6 +12,12 @@ export function Content() {
     const [picUrls, setPicUrls] = useState([]);
     const [messages, setMessages] = useState([]);
     
+// Display links on new page
+    const componentDecorator = (href, text, key) => (
+       <a href={href} key={key} target='_blank' rel='noopener noreferrer'>
+         {text}
+       </a>
+    );
 
 // Gets message via socket
     useEffect(() => {
@@ -31,6 +37,7 @@ export function Content() {
         setMessages(data['allMessages']);
     }
     
+// Check if message is an image
     function checkIsImg(data) {
         console.log(data);
         if (data.indexOf('.jpg') !== -1) {
@@ -55,11 +62,13 @@ export function Content() {
                     <Users />
                 </div>
                 <div className='container'>
-            
-                <ul>
-                    {messages.map((message, index) => (
-                    <li className='list' key={index}><img src={picUrls[index]} /> {userNames[index]}: {checkIsImg(message)}</li>))}
-                </ul>
+                
+                <Linkify componentDecorator={componentDecorator}>
+                    <ul>
+                        {messages.map((message, index) => (
+                        <li className='list' key={index}><img src={picUrls[index]} /> {userNames[index]}: {checkIsImg(message)}</li>))}
+                    </ul>
+                </Linkify>
                 </div>
                 <MessageForm />
             </div>
