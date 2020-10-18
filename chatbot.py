@@ -1,7 +1,14 @@
+from dotenv import load_dotenv
+from os.path import join, dirname
+import os
 import random
 import requests
 
-# Chat Bot 
+# Load the keys.env file
+dotenv_path = join(dirname(__file__), 'keys.env')
+load_dotenv(dotenv_path)
+giphy_key = os.getenv('GIPHY_KEY')
+
 class Bot:
     def __init__(self, message):
         self.message = message
@@ -16,7 +23,7 @@ class Bot:
 
         # Bot outputs help message showing known commands 
         elif (message == '!!help' or message == '!! help'):
-            message = "Here be th' known commands ye can use: !!about - !!help - !!pirate - !!mood - !!famous - !!funtranslate <message> - !!insult"
+            message = "Here be th' known commands ye can use: !!about - !!help - !!pirate - !!mood - !!famous - !!funtranslate <message> - !!insult - !!gif <message>"
             return message
 
         # Bot outputs definition of a pirate (got from urban dictionary)
@@ -76,7 +83,7 @@ class Bot:
             phrase = message[15:]
             api_link1 = f'https://api.funtranslations.com/translate/pirate.json?text={phrase}'
             parse_data1 = requests.get(api_link1).json()
-            print(parse_data1)
+            
             if 'success' in parse_data1:
                 translation = parse_data1['contents']['translated']
                 return translation
@@ -88,15 +95,30 @@ class Bot:
         elif (message == '!!insult' or message == '!! insult'):
             api_link2 = 'https://api.fungenerators.com/pirate/generate/insult?limit=5'
             parse_data2 = requests.get(api_link2).json()
-            print(parse_data2)
+            
             if 'success' in parse_data2:
                 insults = parse_data2['contents']['taunts']
                 message = random.choice(insults)
                 return message
-
             else:
                 message = 'Too Many Requests: Rate limit of 5 requests per day exceeded.'
                 return message
+        
+        # Bot displays a gif of the word you inputted
+        elif (message.split()[0] == '!!gif' or [message[i: i + 6] for i in range(0, len(message), 6)][0] == '!! gif'):
+            word = message[6:]
+            api_link3 = f'https://api.giphy.com/v1/gifs/search?api_key={giphy_key}&limit=1&q={word}'
+            parse_data3 = requests.get(api_link3).json()
+            
+            if parse_data3['meta']['status'] != 200:
+                message = 'Too Many Requsts: Rate limit of 42 searches per hour or 1000 searches per day exceeded.'
+                return message
+            elif parse_data3['pagination']['total_count'] == 0:
+                message = 'Could not find a related gif.'
+                return message
+            else:
+                gif = parse_data3['data'][0]['images']['downsized']['url']
+                return gif
 
         # If unknown command, display this
         else:
