@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Linkify from 'react-linkify';
 
 import { Users } from './Users';
 import { MessageForm } from './MessageForm';
@@ -11,6 +12,7 @@ export function Content() {
     const [picUrls, setPicUrls] = useState([]);
     const [messages, setMessages] = useState([]);
     
+
 // Gets message via socket
     useEffect(() => {
         Socket.on('messages received', updateData);
@@ -29,6 +31,22 @@ export function Content() {
         setMessages(data['allMessages']);
     }
     
+    function checkIsImg(data) {
+        console.log(data);
+        if (data.indexOf('.jpg') !== -1) {
+            return (<img src={data} />);
+        }
+        else if (data.indexOf('.png') !== -1) {
+            return (<img src={data} />);
+        }
+        else if (data.indexOf('.gif') !== -1) {
+            return (<img src={data} />);
+        }
+        else {
+            return data;
+        }
+    }
+    
 // Creates chat box and message content
     return (
         <div>
@@ -37,10 +55,11 @@ export function Content() {
                     <Users />
                 </div>
                 <div className='container'>
-                    <ul>
-                        {userNames.map((user, index) => (
-                        <li className='list' key={index}>{picUrls[index]} {user}: {messages[index]}</li>))}
-                    </ul>
+            
+                <ul>
+                    {messages.map((message, index) => (
+                    <li className='list' key={index}><img src={picUrls[index]} /> {userNames[index]}: {checkIsImg(message)}</li>))}
+                </ul>
                 </div>
                 <MessageForm />
             </div>
