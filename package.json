@@ -32,8 +32,8 @@
   "dependencies": {
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.21",
-    "react-linkify": "^1.0.0-alpha",
     "react-social-login-buttons": "^3.1.0",
+    "react-tiny-link": "^3.6.0",
     "socket.io-client": "^2.3.1"
   }
 }
