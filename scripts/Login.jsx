@@ -8,9 +8,15 @@ import './Login.css';
 export function Login() {
     return (
         <div className='loginContainer'>
-            <h1>Login to Enter</h1>
-            <GoogleButton />
-            <FacebookButton />
+            <div className='textContainer'>
+                <h1>Login to Enter!</h1>
+            </div>
+            <div className='padding'>
+                <GoogleButton />
+            </div>
+            <div className='padding'>
+                <FacebookButton />
+            </div>
         </div>
     );
 }
