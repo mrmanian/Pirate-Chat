@@ -1,4 +1,3 @@
-# Import required packages
 from flask import Flask, render_template, request
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -20,8 +19,8 @@ app = Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 socketio.init_app(app, cors_allowed_origins='*')
 
-# Load the sql.env file
-dotenv_path = join(dirname(__file__), 'sql.env')
+# Load the keys.env file
+dotenv_path = join(dirname(__file__), 'keys.env')
 load_dotenv(dotenv_path)
 
 # Setup PSQL/SQLAlchemy database connection
@@ -35,8 +34,9 @@ db.session.commit()
 
 # Global variables
 userCount = 0
-userName = 'Pirate '
-            
+userName = ''
+picUrl = ''
+
 # Persists all usernames, picurls, and messages from database
 def emit_all_messages(channel):
     all_usernames = [ \
@@ -62,23 +62,9 @@ def emit_all_messages(channel):
 @socketio.on('connect')
 def on_connect():
     global userCount
-    global userName
-    randNum = str(random.randint(0, 99999))
     userCount += 1
-    name = userName + randNum
     print('Someone connected!')
     
-    # Broadcast updated usercount to all clients
-    socketio.emit('userConnected', {
-        'userCount': userCount
-    }, broadcast = True)
-    
-    # Broadcast assigned username to all clients
-    socketio.emit('userName', {
-        'userName': name
-    }, request.sid)
-    
-    print('Assigned name: ' + name)
     emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
     
 # On disconnection
@@ -93,13 +79,32 @@ def on_disconnect():
         'userCount': userCount
     })
     
+@socketio.on('new google user')
+def on_new_google_user(data):
+    global userName
+    global picUrl
+    print('Got an event for new google user input with data: ', data)
+    userName = data['name']
+    picUrl = data['picUrl']
+    
+    # Broadcast username/profile pic url to all clients
+    socketio.emit('userName', {
+        'userName': userName,
+        'picUrl': picUrl
+    }, request.sid)
+    
+    # Broadcast updated usercount to all clients
+    socketio.emit('userConnected', {
+        'userCount': userCount
+    }, broadcast = True)
+    
 # When a new message comes in
 @socketio.on('new message')
 def on_new_message(data):
     print('Received message: ', data)
     
     # Stores data into database
-    db.session.add(models.ChatHistory(data['userName'], '', data['message']))
+    db.session.add(models.ChatHistory(data['userName'], data['picUrl'], data['message']))
     db.session.commit()
     
     # If message starts with '!!' call the bot 
@@ -107,10 +112,10 @@ def on_new_message(data):
         captain = chatbot.Bot(data['message'])
         data['message'] = captain.botResponses()
         data['userName'] = 'Captain Bot'
-        fullMessage = data['userName'] + ': ' + data['message']
+        data['picUrl'] = 'https://avatarfiles.alphacoders.com/792/79207.jpg'
         print('Received message from bot: ', data)
         
-        db.session.add(models.ChatHistory(data['userName'], '', data['message']))
+        db.session.add(models.ChatHistory(data['userName'], data['picUrl'], data['message']))
         db.session.commit()
     
     emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
