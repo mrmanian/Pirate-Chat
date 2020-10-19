@@ -83,9 +83,28 @@ def on_disconnect():
 def on_new_google_user(data):
     global userName
     global picUrl
-    print('Got an event for new google user input with data: ', data)
     userName = data['name']
     picUrl = data['picUrl']
+    print('Got an event for new google user input with data: ', data)
+    
+    # Broadcast username/profile pic url to all clients
+    socketio.emit('userName', {
+        'userName': userName,
+        'picUrl': picUrl
+    }, request.sid)
+    
+    # Broadcast updated usercount to all clients
+    socketio.emit('userConnected', {
+        'userCount': userCount
+    }, broadcast = True)
+    
+@socketio.on('new facebook user')
+def on_new_facebook_user(data):
+    global userName
+    global picUrl
+    userName = data['name']
+    picUrl = data['picUrl']
+    print('Got an event for new facebook user input with data: ', data)
     
     # Broadcast username/profile pic url to all clients
     socketio.emit('userName', {
