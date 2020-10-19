@@ -4,6 +4,7 @@ import Linkify from 'react-linkify';
 import { Users } from './Users';
 import { MessageForm } from './MessageForm';
 import { Socket } from './Socket';
+import { Login } from './Login';
 
 import './Content.css';
 
@@ -57,18 +58,18 @@ export function Content() {
 // Creates chat box and message content
     return (
         <div>
+            <Login />
             <div className='outerContainer'>
                 <div className='topContainer'>
                     <Users />
                 </div>
                 <div className='container'>
-                
-                <Linkify componentDecorator={componentDecorator}>
-                    <ul>
-                        {messages.map((message, index) => (
-                        <li className='list' key={index}><img src={picUrls[index]} /> {userNames[index]}: {checkIsImg(message)}</li>))}
-                    </ul>
-                </Linkify>
+                    <Linkify componentDecorator={componentDecorator}>
+                        <ul>
+                            {messages.map((message, index) => (
+                            <li className='list' key={index}><img src={picUrls[index]} /> {userNames[index]}: {checkIsImg(message)}</li>))}
+                        </ul>
+                    </Linkify>
                 </div>
                 <MessageForm />
             </div>
