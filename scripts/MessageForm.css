@@ -22,3 +22,10 @@
     height: 110%;
     width: 100%;
 }
+
+.outer {
+    background: #eee;
+    height: 4vh;
+    font-size: 14px;
+    overflow: hidden;
+}
