@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ReactTinyLink } from "react-tiny-link";
+import Linkify from 'react-linkify';
 
 import { Socket } from './Socket';
 
@@ -10,6 +10,13 @@ export function ChatBox() {
     const [picUrls, setPicUrls] = useState([]);
     const [messages, setMessages] = useState([]);
 
+// Display links on new page
+    const componentDecorator = (href, text, key) => (
+       <a href={href} key={key} target='_blank' rel='noopener noreferrer'>
+         {text}
+       </a>
+    );
+    
 // Gets message via socket
     useEffect(() => {
         Socket.on('messages received', updateData);
@@ -32,27 +39,16 @@ export function ChatBox() {
     function checkIsImgOrLink(data) {
         console.log(data);
         if (data.indexOf('.jpg') !== -1) {
-            return (<img className='images' src={data} />);
+            return (<img className='images' src={data} alt='Invalid image link'/>);
         }
         else if (data.indexOf('.png') !== -1) {
-            return (<img className='images' src={data} />);
+            return (<img className='images' src={data} alt='Invalid image link'/>);
         }
         else if (data.indexOf('.gif') !== -1) {
-            return (<img className='images' src={data} />);
-        }
-        else if (data.indexOf('http') !== -1) {
-            return (
-                <ReactTinyLink
-                    cardSize='small'
-                    showGraphic={true}
-                    maxLine={2}
-                    minLine={1}
-                    url={data}
-                 />
-            );
+            return (<img className='images' src={data} alt='Invalid image link'/>);
         }
         else {
-            return data;
+            return <Linkify componentDecorator={componentDecorator}> {data} </Linkify>;
         }
     }
     
