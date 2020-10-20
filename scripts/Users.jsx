@@ -4,7 +4,7 @@ import { Socket } from './Socket';
 
 import './Users.css';
 
-// Counts connected/disconnected users
+// Counts authenticated users
 export function Users() {
     const [userCount, setUserCount] = useState(0);
     
@@ -12,13 +12,13 @@ export function Users() {
     Socket.on('userConnected', (data) => {
       setUserCount(data['userCount']);
         });
-    });
+    }, []);
     
     useEffect(() => {
     Socket.on('userDisconnected', (data) => {
       setUserCount(data['userCount']);
         });
-    });
+    }, []);
     
     return (
         <div>
