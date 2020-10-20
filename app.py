@@ -61,28 +61,20 @@ def emit_all_messages(channel):
 # On new connection
 @socketio.on('connect')
 def on_connect():
-    global userCount
-    userCount += 1
     print('Someone connected!')
-    
     emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
     
 # On disconnection
 @socketio.on('disconnect')
 def on_disconnect():
-    global userCount
-    userCount -= 1
     print ('Someone disconnected!')
     
-    # Broadcast updated usercount to all clients
-    socketio.emit('userDisconnected', {
-        'userCount': userCount
-    })
-    
+# When user logs in with google
 @socketio.on('new google user')
 def on_new_google_user(data):
     global userName
     global picUrl
+    global userCount
     userName = data['name']
     picUrl = data['picUrl']
     print('Got an event for new google user input with data: ', data)
@@ -93,15 +85,18 @@ def on_new_google_user(data):
         'picUrl': picUrl
     }, request.sid)
     
+    userCount += 1
     # Broadcast updated usercount to all clients
     socketio.emit('userConnected', {
         'userCount': userCount
     }, broadcast = True)
     
+# When user logs in with facebook
 @socketio.on('new facebook user')
 def on_new_facebook_user(data):
     global userName
     global picUrl
+    global userCount
     userName = data['name']
     picUrl = data['picUrl']
     print('Got an event for new facebook user input with data: ', data)
@@ -112,10 +107,22 @@ def on_new_facebook_user(data):
         'picUrl': picUrl
     }, request.sid)
     
+    userCount += 1
     # Broadcast updated usercount to all clients
     socketio.emit('userConnected', {
         'userCount': userCount
     }, broadcast = True)
+    
+# On logout
+@socketio.on('logout')
+def on_logout():
+    global userCount
+    userCount -= 1
+    
+    # Broadcast updated usercount to all clients
+    socketio.emit('userDisconnected', {
+        'userCount': userCount
+    })
     
 # When a new message comes in
 @socketio.on('new message')
