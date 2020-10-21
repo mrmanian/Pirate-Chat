@@ -132,13 +132,13 @@ It should ask for your password after this. This password should be the same pas
         select * from chat_history;
         \q
 
-Also, go to your heroku [dashboard](https://dashboard.heroku.com/apps) and click on your newly created app and go to settings. Under buildpacks, add 'heroku/nodejs' and 'heroku/python' if they are not there already.
-
 Once that is complete, navigate to [this](https://dashboard.heroku.com/apps) website and click on your newly created app. Click on Settings, then scroll to "Config Vars." Click "Reveal Config Vars" and add the key value pairs for each environmental variable. In this case, we only need to input the key for the Giphy API. Go to the `keys.env` file and copy the name and key exactly onto heroku.
 
 Now we can push the code to Heroku so that it can be deployed. The following command will do precisely that.
 
         git push heroku main
+
+Also, go to your heroku [dashboard](https://dashboard.heroku.com/apps) and click on your newly created app and go to settings. Under buildpacks, add 'heroku/nodejs' and 'heroku/python' if they are not there already.
 
 If all went correctly, the website should be up and running!! In case it does not load properly, you can debug it by running the following command on your console.
 
