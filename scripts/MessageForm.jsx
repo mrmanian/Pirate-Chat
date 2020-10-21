@@ -62,7 +62,6 @@ export function MessageForm() {
     
     var name = JSON.stringify(userName).replace(/\"/g, "");
     
-    close();
     return (
         <div>
             <div className='outer'>
