@@ -107,7 +107,7 @@ If there is an error from sqlalchemy saying relation 'chat_history' does not exi
         models.db.session.commit()
         exit()
 
-This should create the table from the `models.py` file and now the code should work!
+This should create the table from the `models.py` file and now the code will work!
 
 #### **Deploy to Heroku and setup Heroku database**
 
