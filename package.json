@@ -13,6 +13,12 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^3.4.2",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "jquery": "^3.2.1",
@@ -30,10 +36,25 @@
     ]
   },
   "dependencies": {
+    "lodash": "^4.17.20",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.21",
     "react-linkify": "^1.0.0-alpha",
     "react-social-login-buttons": "^3.1.0",
     "socket.io-client": "^2.3.1"
-  }
+  },
+  "name": "project2",
+  "description": "This project was designed to function as a chat application, where multiple users can connect and have a conversation. Implemented into the app is a pirate themed bot with many functionalities. This application was created using Flask, React, SocketIO, and a Postgresql Database with SQLAlchemy.",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mrmanian/project2-m3-mrm54.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrmanian/project2-m3-mrm54/issues"
+  },
+  "homepage": "https://github.com/mrmanian/project2-m3-mrm54#readme"
 }
