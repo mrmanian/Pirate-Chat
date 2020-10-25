@@ -5,25 +5,28 @@ import { Socket } from './Socket';
 import './Users.css';
 
 // Counts authenticated users
-export function Users() {
+export default function Users() {
     const [userCount, setUserCount] = useState(0);
-    
     useEffect(() => {
-    Socket.on('userConnected', (data) => {
-      setUserCount(data['userCount']);
+        Socket.on('userConnected', (data) => {
+            setUserCount(data.userCount);
         });
     }, []);
-    
+
     useEffect(() => {
-    Socket.on('userDisconnected', (data) => {
-      setUserCount(data['userCount']);
+        Socket.on('userDisconnected', (data) => {
+            setUserCount(data.userCount);
         });
     }, []);
-    
+
     return (
         <div>
             <h1>Ahoy, Matey!</h1>
-            <h3>Number o' connected users: {userCount} </h3>
+            <h3>
+                Number o&apos; connected users:
+                {' '}
+                {userCount}
+            </h3>
         </div>
     );
 }
