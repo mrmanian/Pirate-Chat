@@ -101,9 +101,10 @@ class Bot:
             api_link1 = (
                 f"https://api.funtranslations.com/translate/pirate.json?text={phrase}"
             )
-            parse_data1 = requests.get(api_link1).json()
+            parse_data1 = requests.get(api_link1)
 
-            if "success" in parse_data1:
+            if parse_data1.status_code == 200:
+                parse_data1 = parse_data1.json()
                 translation = parse_data1["contents"]["translated"]
                 return translation
             message = "Too Many Requests: Rate limit of 5 requests per hour exceeded."
@@ -112,9 +113,10 @@ class Bot:
         # Bot displays a random pirate insult via API call
         if message in ("!!insult", "!! insult"):
             api_link2 = "https://api.fungenerators.com/pirate/generate/insult?limit=5"
-            parse_data2 = requests.get(api_link2).json()
+            parse_data2 = requests.get(api_link2)
 
-            if "success" in parse_data2:
+            if parse_data2.status_code == 200:
+                parse_data2 = parse_data2.json()
                 insults = parse_data2["contents"]["taunts"]
                 message = random.choice(insults)
                 return message
@@ -129,17 +131,18 @@ class Bot:
 
             word = message[6:]
             api_link3 = f"https://api.giphy.com/v1/gifs/search?api_key={giphy_key}&limit=1&q={word}"
-            parse_data3 = requests.get(api_link3).json()
+            parse_data3 = requests.get(api_link3)
 
-            if parse_data3["meta"]["status"] != 200:
-                message = "Too Many Requests: Rate limit of 42 searches per hour or \
-                          1000 searches per day exceeded."
-                return message
-            if parse_data3["pagination"]["total_count"] == 0:
-                message = "Could not find a related gif."
-                return message
-            gif = parse_data3["data"][0]["images"]["downsized"]["url"]
-            return gif
+            if parse_data3.status_code == 200:
+                parse_data3 = parse_data3.json()
+                if parse_data3["pagination"]["total_count"] == 0:
+                    message = "Could not find a related gif."
+                    return message
+                gif = parse_data3["data"][0]["images"]["downsized"]["url"]
+                return gif
+            message = "Too Many Requests: Rate limit of 42 searches per hour or 1000 searches \
+                        per day exceeded."
+            return message
 
         # Bot displays error if user inputs unrecognized command
         message = "Sorry, I dern't recognize that command. Please enter '!!help' \
