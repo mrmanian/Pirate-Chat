@@ -1,13 +1,13 @@
 """ Import required modules """
 import unittest
 import unittest.mock as mock
+from unittest.mock import patch
 from os.path import dirname, join
 import sys
 
 sys.path.append(join(dirname(__file__), "../"))
 import chatbot
 import app
-import models
 
 
 class MockedTests(unittest.TestCase):
@@ -115,13 +115,7 @@ class MockedTests(unittest.TestCase):
                 "status_code": 200,
                 "json.return_value": {
                     "data": [
-                        {
-                            "images": {
-                                "downsized": {
-                                    "url": "https://gph.is/g/4g0e07A"
-                                }
-                            }
-                        }
+                        {"images": {"downsized": {"url": "https://gph.is/g/4g0e07A"}}}
                     ],
                     "pagination": {"total_count": 1},
                 },
@@ -158,6 +152,24 @@ class MockedTests(unittest.TestCase):
         )
         actual = captain.bot_responses()
         self.assertEqual(expected, actual)
+
+    @patch("builtins.print")
+    def test_on_connect(self, mock_print):
+        """ Mocked socket connection print response """
+        app.on_connect()
+        mock_print.assert_called_with("Someone connected!")
+
+    @patch("builtins.print")
+    def test_on_disconnect(self, mock_print):
+        """ Mocked socket disconnect print response """
+        app.on_disconnect()
+        mock_print.assert_called_with("Someone disconnected!")
+
+    @patch("builtins.print")
+    def test_on_logout(self, mock_print):
+        """ Mocked logout print response """
+        app.on_logout()
+        mock_print.assert_called_with("Someone logged out!")
 
 
 if __name__ == "__main__":
