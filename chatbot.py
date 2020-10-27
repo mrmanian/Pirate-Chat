@@ -22,25 +22,53 @@ class Bot:
         message = self.message
 
         # Bot outputs about message
-        if message in ("!!about", "!! about"):
+        if (
+            message.split()[0] == "!!about"
+            or [message[i : i + 8] for i in range(0, len(message), 8)][0] == "!! about"
+        ):
+
+            if message.split("about", 1)[1] not in "":
+                message = "Don't enter anything after '!!about'"
+                return message
             message = "This be a pirate themed chat app with many capabilities, \
                       to be sure! Explore away!"
             return message
 
         # Bot outputs help message showing known commands
-        if message in ("!!help", "!! help"):
+        if (
+            message.split()[0] == "!!help"
+            or [message[i : i + 7] for i in range(0, len(message), 7)][0] == "!! help"
+        ):
+
+            if message.split("help", 1)[1] not in "":
+                message = "Don't enter anything after '!!help'"
+                return message
             message = "Here be th' known commands ye can use: !!about - !!help - !!pirate \
                        - !!mood - !!famous - !!funtranslate <message> - !!insult - !!gif <message>"
             return message
 
         # Bot outputs definition of a pirate (got from urban dictionary)
-        if message in ("!!pirate", "!! pirate"):
+        if (
+            message.split()[0] == "!!pirate"
+            or [message[i : i + 9] for i in range(0, len(message), 9)][0] == "!! pirate"
+        ):
+
+            if message.split("pirate", 1)[1] not in "":
+                message = "Don't enter anything after '!!pirate'"
+                return message
             message = 'A guy who drives a ship and yells "yo dude gimme your money and stuff" \
                       and gets whatever he wants. Usually has a stash or rum for some reason.'
             return message
 
         # Bot outputs a random mood
-        if message in ("!!mood", "!! mood"):
+        if (
+            message.split()[0] == "!!mood"
+            or [message[i : i + 7] for i in range(0, len(message), 7)][0] == "!! mood"
+        ):
+
+            if message.split("mood", 1)[1] not in "":
+                message = "Don't enter anything after '!!mood'"
+                return message
             moods = [
                 "I be feelin' like crackin' Jenny's tea cup.",
                 "I be feelin' ho.",
@@ -58,7 +86,14 @@ class Bot:
             return message
 
         # Bot outputs a random famous pirate
-        if message in ("!!famous", "!! famous"):
+        if (
+            message.split()[0] == "!!famous"
+            or [message[i : i + 9] for i in range(0, len(message), 9)][0] == "!! famous"
+        ):
+
+            if message.split("famous", 1)[1] not in "":
+                message = "Don't enter anything after '!!famous'"
+                return message
             famous_pirates = [
                 "Anne Bonny was a famous pirate.",
                 "Bartholomew Roberts was a famous pirate.",
@@ -98,6 +133,9 @@ class Bot:
         ):
 
             phrase = message[15:]
+            if phrase == "":
+                message = "Enter a word or phrase to translate after '!!funtranslate'"
+                return message
             api_link1 = (
                 f"https://api.funtranslations.com/translate/pirate.json?text={phrase}"
             )
@@ -111,7 +149,14 @@ class Bot:
             return message
 
         # Bot displays a random pirate insult via API call
-        if message in ("!!insult", "!! insult"):
+        if (
+            message.split()[0] == "!!insult"
+            or [message[i : i + 9] for i in range(0, len(message), 9)][0] == "!! insult"
+        ):
+
+            if message.split("insult", 1)[1] not in "":
+                message = "Don't enter anything after '!!insult'"
+                return message
             api_link2 = "https://api.fungenerators.com/pirate/generate/insult?limit=5"
             parse_data2 = requests.get(api_link2)
 
@@ -130,6 +175,9 @@ class Bot:
         ):
 
             word = message[6:]
+            if word == "":
+                message = "Enter a word or phrase after '!!gif'"
+                return message
             api_link3 = f"https://api.giphy.com/v1/gifs/search?api_key={giphy_key}&limit=1&q={word}"
             parse_data3 = requests.get(api_link3)
 
