@@ -5,8 +5,6 @@ import sys
 
 sys.path.append(join(dirname(__file__), "../"))
 import chatbot
-import app
-import models
 
 
 class UnmockedTests(unittest.TestCase):
@@ -16,7 +14,14 @@ class UnmockedTests(unittest.TestCase):
     HELP = "!!help"
     PIRATE = "!!pirate"
     INVALID_COMMAND = "!! jfsjfslf"
-
+    INVALID_ABOUT = "!!about word"
+    INVALID_HELP = "!!help word"
+    INVALID_PIRATE = "!!pirate word"
+    INVALID_MOOD = "!!mood word"
+    INVALID_FAMOUS = "!!famous word"
+    INVALID_FUNTRANSLATE = "!!funtranslate"
+    INVALID_INSULT = "!!insult word"
+    INVALID_GIF = "!!gif"
 
     def test_about_command(self):
         """ Mocked bot about command """
@@ -47,6 +52,62 @@ class UnmockedTests(unittest.TestCase):
         captain = chatbot.Bot(UnmockedTests.INVALID_COMMAND)
         expected = "Sorry, I dern't recognize that command. Please enter '!!help' \
                   to see a list o' commands."
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_about(self):
+        """ Mocked bot invalid about command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_ABOUT)
+        expected = "Don't enter anything after '!!about'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_help(self):
+        """ Mocked bot invalid help command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_HELP)
+        expected = "Don't enter anything after '!!help'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_pirate(self):
+        """ Mocked bot invalid pirate command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_PIRATE)
+        expected = "Don't enter anything after '!!pirate'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_mood(self):
+        """ Mocked bot invalid mood command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_MOOD)
+        expected = "Don't enter anything after '!!mood'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_famous(self):
+        """ Mocked bot invalid famous command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_FAMOUS)
+        expected = "Don't enter anything after '!!famous'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_funtranslate(self):
+        """ Mocked bot invalid funtranslate command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_FUNTRANSLATE)
+        expected = "Enter a word or phrase to translate after '!!funtranslate'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_insult(self):
+        """ Mocked bot invalid insult command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_INSULT)
+        expected = "Don't enter anything after '!!insult'"
+        actual = captain.bot_responses()
+        self.assertEqual(expected, actual)
+
+    def test_invalid_gif(self):
+        """ Mocked bot invalid gif command """
+        captain = chatbot.Bot(UnmockedTests.INVALID_GIF)
+        expected = "Enter a word or phrase after '!!gif'"
         actual = captain.bot_responses()
         self.assertEqual(expected, actual)
 

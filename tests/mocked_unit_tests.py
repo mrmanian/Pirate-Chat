@@ -17,9 +17,9 @@ class MockedTests(unittest.TestCase):
 
     MOOD = "!!mood"
     FAMOUS = "!!famous"
-    FUNTRANSLATE = "!!funtranslate"
+    FUNTRANSLATE = "!!funtranslate sentence"
     INSULT = "!!insult"
-    GIF = "!!gif"
+    GIF = "!!gif word"
 
     @staticmethod
     def mocked_random_choice(value):
@@ -172,22 +172,27 @@ class MockedTests(unittest.TestCase):
         """ Mocked logout print response """
         app.on_logout()
         mock_print.assert_called_with("Someone logged out!")
-    
-    @patch('flask.templating._render', return_value='')
+
+    @patch("flask.templating._render", return_value="")
     def test_mocked_render(self, mocked):
         """ Mocked flask render template response """
-        t = app.app.test_client()
-        repr(t.get("/").data)
-        mocked.called
+        test_client = app.app.test_client()
+        test_client.get("/")
+        self.assertEqual(mocked.called, True)
 
     def test_database_values(self):
         """ Mocked database initalization """
-        session = UnifiedAlchemyMagicMock ()
-        session.add(models.ChatHistory(user_name="mike", pic_url="https://google.com", message="hi"))
+        session = UnifiedAlchemyMagicMock()
+        session.add(
+            models.ChatHistory(
+                user_name="mike", pic_url="https://google.com", message="hi"
+            )
+        )
         query = session.query(models.ChatHistory).first()
         self.assertEqual(query.user_name, "mike")
         self.assertEqual(query.pic_url, "https://google.com")
         self.assertEqual(query.message, "hi")
+
 
 if __name__ == "__main__":
     unittest.main()
