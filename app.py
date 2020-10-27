@@ -5,7 +5,6 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import flask_socketio
 from flask_sqlalchemy import SQLAlchemy
-import models
 import chatbot
 
 MESSAGES_RECEIVED_CHANNEL = "messages received"
@@ -30,6 +29,7 @@ db.init_app(app)
 db.app = app
 db.create_all()
 db.session.commit()
+import models
 
 
 def emit_all_messages(channel):
@@ -106,6 +106,7 @@ def on_new_facebook_user(data):
 def on_logout():
     """ Decrement user count on logout """
     USER_COUNT[0] -= 1
+    print("Someone logged out!")
 
     # Broadcast updated usercount to all clients
     socketio.emit("userDisconnected", {"userCount": USER_COUNT})
