@@ -1,5 +1,5 @@
 # Pirate Themed Chat App
-This project was designed to function as a chat application, where multiple users can connect and have a conversation. Implemented into the app is a pirate themed bot with many functionalities. This application was created using Flask, React, SocketIO, and a Postgresql Database with SQLAlchemy.
+This project was designed to function as a chat application, where multiple users can connect and have a conversation. Implemented into the app is a pirate themed bot with many functionalities. This application was created using Flask, React, SocketIO, and a Postgresql database with SQLAlchemy.
 
 ## Table of Contents 
 
@@ -25,8 +25,8 @@ Prerequisites:
 
 To run this app, you first need to clone my repo to your local machine and then cd into it by typing the following commands on your terminal.
 
-        git clone https://github.com/NJIT-CS490/project2-m2-mrm54.git
-        cd project2-m2-mrm54
+        git clone https://github.com/NJIT-CS490/project2-m3-mrm54.git
+        cd project2-m3-mrm54
 
 Now let us install the packages required to run the app! First step is to upgrade node to version 7, yum to the latest version, and pip to the latest version. Enter yes to any and all prompt, if given.
 
@@ -42,6 +42,18 @@ Next, lets setup SocketIO and React by installing the following packages.
         npm install -g webpack
         npm install --save-dev webpack
         npm install socket.io-client --save
+
+Let us also install packages used for linting, checking coverage and using circleci.
+
+        pip install pylint --upgrade
+        sudo $(which pip) install black
+        pip install alchemy-mock
+        pip install coverage
+        npm install -g eslint
+        npm init
+        eslint --init
+
+Accept the default options for eslint or configure it to your liking.
 
 Install a couple other npm packages I used for styling and creating login buttons.
 
@@ -108,6 +120,12 @@ If there is an error from sqlalchemy saying relation 'chat_history' does not exi
         exit()
 
 This should create the table from the `models.py` file and now the code will work!
+
+#### **Run the Unit Tests**
+
+I have configured all the files into the repository already so to run the unit tests, run the following command on the root directory.
+
+        coverage run -m --source=. unittest tests/*.py && coverage html
 
 #### **Deploy to Heroku and setup Heroku database**
 
@@ -320,6 +338,10 @@ Note that this app ID does not have to be kept a secret. Input your unique ID in
 #### Improvement #2: Render url link preview in-line.
 
 * I implemented this feature using the library react-tiny-link, however the app would break and render useless if an invalid url link was entered, so I removed it completely. How I originally did it was I searched if the message had an 'http' in it, and if it did, I would pass the react-tiny-link object with the message as the parameter and it will do the rest. If the link is invalid, or if the link does not start with http, for example 'espn.com' will not render as a link. The way I can fix this would be to call a function that will verify that the message is indeed a valid url before returning the react-tiny-link object.
+
+#### Improvement #3: Make the login buttons on a separate page.
+
+* Creating a separate login page would make the app look better for starters, and it would also fix the issue regarding counting the number of online users. I would have the login page load first, then after the user authenticates, it will hide, making the actual chatbox page come into view.
 
 **[Back to top](#Pirate-Themed-Chat-App)**
 
