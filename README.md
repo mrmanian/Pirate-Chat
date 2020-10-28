@@ -123,8 +123,9 @@ This should create the table from the `models.py` file and now the code will wor
 
 #### **Run the Unit Tests**
 
-I have configured all the files into the repository already so to run the unit tests, run the following command on the root directory.
+I have configured all the files into the repository already so to run the unit tests, run the following command on the root directory. Make sure you start the psql database though.
 
+        sudo service postgresql start
         coverage run -m --source=. unittest tests/*.py && coverage html
 
 #### **Deploy to Heroku and setup Heroku database**
