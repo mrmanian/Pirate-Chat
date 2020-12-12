@@ -1,4 +1,4 @@
-# Pirate Chat
+# [Pirate Chat](https://mrmchat.herokuapp.com/)
 This project was designed to function as a chat application, where multiple users can connect and have a conversation. Implemented into the app is a pirate themed bot with many functionalities. This application was created using Flask, React, SocketIO, and a Postgresql database with SQLAlchemy.
 
 ## Table of Contents 
