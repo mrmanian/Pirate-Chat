@@ -3,3 +3,5 @@ static/script.js
 package-lock.json
 keys.env
 __pycache__
+htmlcov/
+.coverage
