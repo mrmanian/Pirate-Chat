@@ -11,7 +11,7 @@ click==7.1.2
 colorama==0.4.3
 coverage==5.3
 decorator==4.4.2
-Django==2.0.2
+Django==2.2.13
 dnspython==1.16.0
 docutils==0.15.2
 eventlet==0.28.0
